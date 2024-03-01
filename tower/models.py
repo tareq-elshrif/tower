@@ -10,6 +10,9 @@ class Tower(models.Model):
     picture_tower = models.ImageField(upload_to="tower_picture/",null=True,blank=True)
     notes = models.CharField(max_length=300)
     
+    def __str__(self):
+        return self.address_tower
+    
 class Apartments(models.Model):
     tower = models.ForeignKey(Tower,on_delete=models.CASCADE)
     apartment_num = models.CharField(max_length=50)
@@ -24,8 +27,11 @@ class Apartments(models.Model):
     maintenance=models.CharField(max_length=10)
     picture=models.ImageField(upload_to="apartments_picture/",null=True,blank=True)
     notes=models.CharField(max_length=300)
+    def __str__(self):
+        return f'{self.tower.tower_num} - Apartments {self.apartment_num}'
     
 class Tenants (models.Model):
+    tower = models.ForeignKey(Tower, on_delete=models.CASCADE)
     apartments = models.ForeignKey(Apartments,on_delete=models.CASCADE)
     name=models.CharField(max_length=80)
     id_person=models.CharField(max_length=20)
